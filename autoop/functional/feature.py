@@ -12,12 +12,14 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
     Returns:
         List[Feature]: List of features with their types.
     """
-    data_frame = pandas.read_csv('dataset.csv')
+    data_frame = pandas.read_csv(dataset)
+    features = []
 
     for column in data_frame.columns:
         if data_frame[column].dtype.name == 'int64':
+            features.append(Feature(name=column, feature_type='categorical'))
             print(f"{column} is numeric")
         elif data_frame[column].dtype.name == 'category':
+            features.append(Feature(name=column, feature_type='numeric'))
             print(f"{column} is categorical")
-
-    raise NotImplementedError("This should be implemented by you.")
+    return features
