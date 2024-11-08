@@ -1,5 +1,4 @@
 from autoop.core.ml.artifact import Artifact
-from abc import ABC, abstractmethod
 import pandas as pd
 import io
 
@@ -7,7 +6,11 @@ import io
 class Dataset(Artifact):
     """A class to represent an ML dataset"""
     def __init__(self, *args, **kwargs):
-        super().__init__(type="dataset", *args, **kwargs)
+        # If type not in kwargs, set it to "dataset"
+        if "type" not in kwargs:
+            kwargs["type"] = "dataset"
+
+        super().__init__(*args, **kwargs)
 
     @staticmethod
     def from_dataframe(data: pd.DataFrame, name: str,

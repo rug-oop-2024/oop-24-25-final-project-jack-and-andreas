@@ -1,13 +1,36 @@
 
 from autoop.core.ml.model.model import Model
+
+from autoop.core.ml.model.classification import DecisionTree
+from autoop.core.ml.model.classification import KNearestNeighbours
+from autoop.core.ml.model.classification import SupportVectorMachine
+
+from autoop.core.ml.model.regression import DecisionTreeRegressor
 from autoop.core.ml.model.regression import MultipleLinearRegression
+from autoop.core.ml.model.regression import SupportVectorRegressor
 
-REGRESSION_MODELS = [
-] # add your models as str here
 
-CLASSIFICATION_MODELS = [
-] # add your models as str here
+REGRESSION_MODELS = {
+    "DecisionTreeRegressor": DecisionTreeRegressor,
+    "MultipleLinearRegression": MultipleLinearRegression,
+    "SupportVectorRegressor": SupportVectorRegressor
+}
+
+CLASSIFICATION_MODELS = {
+    "DecisionTree": DecisionTree,
+    "KNearestNeighbours": KNearestNeighbours,
+    "SupportVectorMachine": SupportVectorMachine
+}
+
 
 def get_model(model_name: str) -> Model:
-    """Factory function to get a model by name."""
-    raise NotImplementedError("To be implemented.")
+    if model_name in REGRESSION_MODELS:
+        return REGRESSION_MODELS[model_name]()
+    elif model_name in CLASSIFICATION_MODELS:
+        return CLASSIFICATION_MODELS[model_name]()
+    else:
+        raise ValueError(f"Model {model_name} not found")
+
+
+def get_models() -> list[str]:
+    return list(REGRESSION_MODELS.keys()) + list(CLASSIFICATION_MODELS.keys())
