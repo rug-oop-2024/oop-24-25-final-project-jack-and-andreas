@@ -8,7 +8,7 @@ class Feature(BaseModel):
     Feature class takes a name and type of a feature
     """
     name:  str = Field(..., description="The name of the feature")
-    type: Literal['numeric', 'categorical'] = Field(
+    type: Literal['numerical', 'categorical'] = Field(
         ...,
         description="Type of the feature, either 'categorical' or 'numerical'"
     )

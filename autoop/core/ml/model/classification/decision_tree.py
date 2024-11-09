@@ -1,18 +1,12 @@
 from sklearn.tree import DecisionTreeClassifier
 from autoop.core.ml.model import Model
 
-from typing import Any
-
 
 class DecisionTree(Model):
-    def __init__(self, hyperparameters: dict[str, Any] = {}):
-        super().__init__()
-        self.hyperparameters["criterion"] = hyperparameters.get(
-            "criterion", "gini"
-        )
-        self.hyperparameters["splitter"] = hyperparameters.get(
-            "splitter", "best"
-        )
+    def __init__(self):
+        super().__init__("classification")
+        self.hyperparameters["criterion"] = "gini"
+        self.hyperparameters["splitter"] = "best"
         self.model = DecisionTreeClassifier()
 
     def fit(self, X, y):

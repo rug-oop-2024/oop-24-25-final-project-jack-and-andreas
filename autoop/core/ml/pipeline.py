@@ -64,19 +64,33 @@ Pipeline(
             if artifact_type in ["OneHotEncoder"]:
                 data = artifact["encoder"]
                 data = pickle.dumps(data)
-                artifacts.append(Artifact(name=name, data=data))
+                artifacts.append(Artifact(
+                    name=name,
+                    data=data,
+                    asset_path=artifact.asset_path,
+                    version=artifact.version
+                ))
             if artifact_type in ["StandardScaler"]:
                 data = artifact["scaler"]
                 data = pickle.dumps(data)
-                artifacts.append(Artifact(name=name, data=data))
+                artifacts.append(Artifact(
+                    name=name,
+                    data=data,
+                    asset_path=artifact.asset_path,
+                    version=artifact.version
+                ))
         pipeline_data = {
             "input_features": self._input_features,
             "target_feature": self._target_feature,
             "split": self._split,
         }
-        artifacts.append(
-            Artifact(name="pipeline_config", data=pickle.dumps(pipeline_data))
-        )
+        artifacts.append(Artifact(
+            name="pipeline_config",
+            data=pickle.dumps(pipeline_data),
+            type="pipeline_config",
+            asset_path="pipeline_config.pkl",
+            version="0.0.1"
+        ))
         model_artifact = self._model.to_artifact(
             name=f"pipeline_model_{self._model.type}"
         )
@@ -146,18 +160,9 @@ Pipeline(
         self._preprocess_features()
         self._split_data()
         self._train()
-
-        # Evaluate on training data
-        train_X = self._compact_vectors(self._train_X)
-        train_y = self._train_y
-        training_metrics = self._evaluate(train_X, train_y)
-
-        # Evaluate on testing data
-        test_X = self._compact_vectors(self._test_X)
-        test_y = self._test_y
-        testing_metrics = self._evaluate(test_X, test_y)
+        self._evaluate()
 
         return {
-            "training_metrics": training_metrics,
-            "testing_metrics": testing_metrics,
+            "metrics": self._metrics_results,
+            "predictions": self._predictions,
         }

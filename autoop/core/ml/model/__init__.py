@@ -5,13 +5,13 @@ from autoop.core.ml.model.classification import DecisionTree
 from autoop.core.ml.model.classification import KNearestNeighbours
 from autoop.core.ml.model.classification import SupportVectorMachine
 
-from autoop.core.ml.model.regression import DecisionTreeRegressor
+from autoop.core.ml.model.regression import DecisionTreeRegressorModel
 from autoop.core.ml.model.regression import MultipleLinearRegression
 from autoop.core.ml.model.regression import SupportVectorRegressor
 
 
 REGRESSION_MODELS = {
-    "DecisionTreeRegressor": DecisionTreeRegressor,
+    "DecisionTreeRegressor": DecisionTreeRegressorModel,
     "MultipleLinearRegression": MultipleLinearRegression,
     "SupportVectorRegressor": SupportVectorRegressor
 }
@@ -34,3 +34,11 @@ def get_model(model_name: str) -> Model:
 
 def get_models() -> list[str]:
     return list(REGRESSION_MODELS.keys()) + list(CLASSIFICATION_MODELS.keys())
+
+
+def get_regression_models() -> list[str]:
+    return list(REGRESSION_MODELS.keys())
+
+
+def get_classification_models() -> list[str]:
+    return list(CLASSIFICATION_MODELS.keys())
