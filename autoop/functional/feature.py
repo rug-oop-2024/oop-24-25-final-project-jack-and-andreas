@@ -2,8 +2,6 @@
 from typing import List
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.feature import Feature
-import pandas
-from pandas.api.types import is_numeric_dtype
 
 
 def detect_feature_types(dataset: Dataset) -> List[Feature]:
