@@ -9,6 +9,8 @@ import tempfile
 This class contains all the tests for the database class
 It tests the different methods of the database class
 """
+
+
 class TestDatabase(unittest.TestCase):
     """ Setup """
     def setUp(self):
@@ -42,7 +44,7 @@ class TestDatabase(unittest.TestCase):
         self.db.set("collection", id, value)
         other_db = Database(self.storage)
         self.assertEqual(other_db.get("collection", id)["key"], value["key"])
-        """ 
+        """
         Test refresh by setting a key, refreshing the database
         and checking if the key is still there
         """

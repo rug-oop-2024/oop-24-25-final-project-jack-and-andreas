@@ -10,12 +10,12 @@ class Metric(ABC):
     def evaluate(self,
                  ground_truth: np.ndarray,
                  predictions: np.ndarray) -> float:
+        """
+        Evaluate the metric.
+        """
         pass
 
     def __call__(self,
                  ground_truth: np.ndarray,
                  predictions: np.ndarray) -> float:
-        """
-        Evaluate the metric.
-        """
         return self.evaluate(ground_truth, predictions)
