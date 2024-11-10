@@ -15,7 +15,7 @@ class Pipeline():
     A class used to represent a Machine Learning Pipeline.
     """
     def __init__(self,
-                
+
                  metrics: List[Metric],
                  dataset: Dataset,
                  model: Model,

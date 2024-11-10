@@ -4,6 +4,10 @@ import pandas as pd
 
 
 class MultipleLinearRegression(Model):
+    """
+    MultipleLinearRegression is a class that implements a multiple linear 
+    regression model for regression tasks.
+    """
     def __init__(self) -> None:
         """
         Multiple Linear Regression model for regression tasks.
