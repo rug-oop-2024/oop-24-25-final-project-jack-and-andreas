@@ -29,7 +29,7 @@ write_helper_text(
     "model on a dataset."
 )
 
-""" Data retrieval """
+""" Registry retrieval """
 automl = AutoMLSystem.get_instance()
 datasets = automl.registry.list_with_cls(type="dataset", list_cls=Dataset)
 """
