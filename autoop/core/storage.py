@@ -59,6 +59,12 @@ class Storage(ABC):
 
 
 class LocalStorage(Storage):
+    """
+    LocalStorage is a class that provides methods to save, load, delete, and
+    list data in a local file system. It uses a base path to store all data
+    and ensures that the necessary directories are created if they do
+    not exist.
+    """
     def __init__(self, base_path: str = "./assets") -> None:
         self._base_path = base_path
         if not os.path.exists(self._base_path):

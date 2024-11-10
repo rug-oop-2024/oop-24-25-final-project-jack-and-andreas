@@ -3,6 +3,9 @@ import numpy as np
 
 
 class Accuracy(Metric):
+    """
+    A class used to calculate the accuracy of classification tasks.
+    """
     def evaluate(
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:

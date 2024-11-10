@@ -3,6 +3,9 @@ import numpy as np
 
 
 class MeanAbsoluteError(Metric):
+    """
+    A class used to represent the Mean Absolute Error metric.
+    """
     def evaluate(
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:

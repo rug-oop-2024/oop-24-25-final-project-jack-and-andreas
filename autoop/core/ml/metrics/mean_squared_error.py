@@ -3,6 +3,9 @@ import numpy as np
 
 
 class MeanSquaredError(Metric):
+    """
+    A class used to represent the Mean Squared Error metric.
+    """
     def evaluate(
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
