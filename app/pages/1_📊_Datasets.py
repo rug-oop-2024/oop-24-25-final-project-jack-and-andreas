@@ -28,7 +28,7 @@ else:
 
 
 """
-Upload given dataset 
+Upload given dataset
 Then register it s
 """
 dataset_file = st.file_uploader("Upload Dataset File")

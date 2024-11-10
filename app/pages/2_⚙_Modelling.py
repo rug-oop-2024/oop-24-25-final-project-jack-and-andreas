@@ -20,8 +20,10 @@ from autoop.functional.feature import detect_feature_types
 """ Page setup with text helper function """
 st.set_page_config(page_title="Modelling", page_icon="📈")
 
+
 def write_helper_text(text: str):
     st.write(f"<p style=\"color: #888;\">{text}</p>", unsafe_allow_html=True)
+
 
 st.write("# ⚙ Modelling")
 write_helper_text(
@@ -49,9 +51,8 @@ else:
     if dataset is None:
         st.stop()
 
-
     """ Feature selection  """
-    
+
     features = detect_feature_types(dataset)
     st.write("### Input Features")
     input_features = st.multiselect(
@@ -65,12 +66,12 @@ else:
         format_func=lambda feature: feature.name
     )
 
-    """ 
-    Model selection: 
+    """
+    Model selection:
     If the feature is categorical, only show classification models
     If the feature is numerical, only show regression models
     """
-    
+
     st.write("## 🧠 Model Selection")
     write_helper_text(
         "Select a model to train on the dataset. You can also select the"
@@ -141,8 +142,8 @@ else:
         target_feature=target_feature,
         split=split
     )
-    
-    """ 
+
+    """
     Training the model:
     If the model is trained,
     Execute the pipeline, display the results and predictions
