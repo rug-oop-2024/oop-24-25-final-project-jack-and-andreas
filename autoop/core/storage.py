@@ -53,12 +53,12 @@ class Storage(ABC):
 
 
 class LocalStorage(Storage):
-    def __init__(self, base_path: str = "./assets"):
+    def __init__(self, base_path: str = "./assets") -> None:
         self._base_path = base_path
         if not os.path.exists(self._base_path):
             os.makedirs(self._base_path)
 
-    def save(self, data: bytes, key: str):
+    def save(self, data: bytes, key: str) -> None:
         path = self._join_path(key)
         if not os.path.exists(path):
             os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -74,7 +74,7 @@ class LocalStorage(Storage):
         with open(path, 'rb') as f:
             return f.read()
 
-    def delete(self, key: str = "/"):
+    def delete(self, key: str = "/") -> None:
         """
         Delete data at a given path
         """
