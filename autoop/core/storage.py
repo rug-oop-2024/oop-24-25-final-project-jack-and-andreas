@@ -54,11 +54,17 @@ class Storage(ABC):
 
 class LocalStorage(Storage):
     def __init__(self, base_path: str = "./assets"):
+        """
+        Initialize the LocalStorage object
+        """
         self._base_path = base_path
         if not os.path.exists(self._base_path):
             os.makedirs(self._base_path)
 
     def save(self, data: bytes, key: str):
+        """
+        Save data to a given path
+        """
         path = self._join_path(key)
         if not os.path.exists(path):
             os.makedirs(os.path.dirname(path), exist_ok=True)
