@@ -158,7 +158,7 @@ If you did not implement the feature
 | `ML/artifact`                         | NF           |Jack                  |         | X |        
 | `ML/feature`                          | NF           |Jack                  |         | X |        
 | `ML/metric`                           | NF           |Andreas               |         | X |        
-| `ML/metric/extensions`                |    FN        |Andreas               |         | X |     
+| `ML/metric/extensions`                | FN           |Andreas               |         | X |     
 | `ML/model`                            | NF           |Andreas               |         | X |        
 | `ML/model/extensions`                 | FN           |Andreas               |         | X |        
 | `ML/pipeline/evaluation`              | FN           |Andreas               |         | X |        
@@ -174,9 +174,9 @@ If you did not implement the feature
 | `ST/modelling/pipeline/summary`       | FN           |Andreas               |         | X |
 | `ST/modelling/pipeline/train`         | FN           |Andreas               |         | X |
 | `ST/modelling/pipeline/save`          | FN           |Andreas               |         | X |
-| `ST/page/deployment`                  | FN           |                      |         | X |
-| `ST/deployment/load`                  | FN           |                      |         | X |
-| `ST/deployment/predict`               | FN           |                      |         | X |
+| `ST/page/deployment`                  | FN           |both                  |         | X |
+| `ST/deployment/load`                  | FN           |both                  |         | X |
+| `ST/deployment/predict`               | FN           |both                  |         | X |
 
 If you add extra features, please indicate them below:
 | Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |
