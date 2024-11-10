@@ -2,7 +2,7 @@ import streamlit as st
 from app.core.system import AutoMLSystem
 from autoop.core.ml.dataset import Dataset
 
-""" Data retrieval """
+""" Registry retrieval """
 automl = AutoMLSystem.get_instance()
 datasets = automl.registry.list_with_cls(type="dataset", list_cls=Dataset)
 
@@ -29,7 +29,7 @@ else:
 
 """
 Upload given dataset 
-Then register it s
+Then register it
 """
 dataset_file = st.file_uploader("Upload Dataset File")
 
