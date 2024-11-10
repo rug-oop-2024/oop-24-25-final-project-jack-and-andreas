@@ -20,7 +20,10 @@ from autoop.functional.feature import detect_feature_types
 st.set_page_config(page_title="Modelling", page_icon="📈")
 
 
-def write_helper_text(text: str):
+def write_helper_text(text: str) -> None:
+    """
+    Writes the given text as HTML with a specific style to the Streamlit app.
+    """
     st.write(f"<p style=\"color: #888;\">{text}</p>", unsafe_allow_html=True)
 
 

@@ -31,7 +31,7 @@ if dataset_file:
     st.write(f"File uploaded: {dataset_file.name}")
 
     dataset = Dataset(
-        asset_path="./datasets/"+dataset_file.name,
+        asset_path="./datasets/" + dataset_file.name,
         name=dataset_file.name,
         version="1.0.0",
         data=dataset_file.read(),

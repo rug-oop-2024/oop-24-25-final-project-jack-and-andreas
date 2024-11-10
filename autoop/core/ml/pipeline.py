@@ -11,6 +11,9 @@ import numpy as np
 
 
 class Pipeline():
+    """
+    A class used to represent a Machine Learning Pipeline.
+    """
     def __init__(self,
                  metrics: List[Metric],
                  dataset: Dataset,
@@ -52,7 +55,7 @@ Pipeline(
     def model(self):
         return self._model
 
-    def artifacts(self, pipe_name, pipe_version) -> List[Artifact]:
+    def artifacts(self, pipe_name: str, pipe_version: str) -> List[Artifact]:
         """
         Used to get the artifacts generated during the pipeline
         execution to be saved
@@ -106,11 +109,11 @@ Pipeline(
         ))
         return artifacts
 
-    def _register_artifact(self, name: str, artifact):
+    def _register_artifact(self, name: str, artifact) -> None:
         """ Register an artifact generated during the pipeline execution """
         self._artifacts[name] = artifact
 
-    def _preprocess_features(self):
+    def _preprocess_features(self) -> None:
         """ Preprocess the features """
         (target_feature_name, target_data, artifact) = preprocess_features(
             [self._target_feature], self._dataset
@@ -128,7 +131,7 @@ Pipeline(
             data for (feature_name, data, artifact) in input_results
         ]
 
-    def _split_data(self):
+    def _split_data(self) -> None:
         """ Split the data into training and testing sets """
         split = self._split
         self._train_X = [
@@ -149,13 +152,13 @@ Pipeline(
         """ Compact the input vectors into a single matrix """
         return np.concatenate(vectors, axis=1)
 
-    def _train(self):
+    def _train(self) -> None:
         """ Train the model """
         X = self._compact_vectors(self._train_X)
         Y = self._train_y
         self._model.fit(X, Y)
 
-    def _evaluate(self):
+    def _evaluate(self) -> None:
         """ Evaluate the model """
         X = self._compact_vectors(self._test_X)
         Y = self._test_y
@@ -166,7 +169,7 @@ Pipeline(
             self._metrics_results.append((metric, result))
         self._predictions = predictions
 
-    def execute(self):
+    def execute(self) -> dict:
         """
         Execute the pipeline and return metrics for both training
         and testing sets.
