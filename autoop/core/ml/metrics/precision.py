@@ -3,6 +3,9 @@ import numpy as np
 
 
 class Precision(Metric):
+    """
+    Precision metric for classification tasks.
+    """
     def evaluate(
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
