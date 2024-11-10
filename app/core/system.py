@@ -13,7 +13,7 @@ class ArtifactRegistry():
     """
     def __init__(self,
                  database: Database,
-                 storage: Storage): 
+                 storage: Storage):
         self._database = database
         self._storage = storage
 
@@ -31,7 +31,6 @@ class ArtifactRegistry():
         }
         self._database.set("artifacts", artifact.id, entry)
 
-   
     def list(self, type: str = None) -> List[Artifact]:
         """
         List artifacts
@@ -55,7 +54,6 @@ class ArtifactRegistry():
             artifacts.append(artifact)
         return artifacts
 
-   
     def list_with_cls(self, type: str = None, list_cls=None) -> list:
         """
         List artifacts with class
@@ -79,7 +77,6 @@ class ArtifactRegistry():
             artifacts.append(artifact)
         return artifacts
 
-    
     def get(self, artifact_id: str) -> Artifact:
         """
         Get artifact
@@ -97,7 +94,6 @@ class ArtifactRegistry():
             type=data["type"],
         )
 
-   
     def delete(self, artifact_id: str) -> None:
         """
         Delete artifact
@@ -106,6 +102,7 @@ class ArtifactRegistry():
         data = self._database.get("artifacts", artifact_id)
         self._storage.delete(data["asset_path"])
         self._database.delete("artifacts", artifact_id)
+
 
 class AutoMLSystem:
     """
