@@ -85,12 +85,10 @@ else:
 
     model = st.selectbox("Select a model", models)
     model_instance = get_model(model)
-
     st.write(f"Model: {model}")
 
-    """ 
-    Hyperparameters
-    """
+    """ Hyperparameters selection"""
+
     st.write("### Hyperparameters")
     hyperparameters = model_instance.hyperparameters
 
