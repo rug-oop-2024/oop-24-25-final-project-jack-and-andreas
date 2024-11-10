@@ -6,7 +6,13 @@ from autoop.core.storage import Storage
 
 
 class Database():
-    def __init__(self, storage: Storage):
+    """
+        A class used to represent a Database
+        """
+    def __init__(self, storage: Storage) -> None:
+        """
+        Initializes the Database with a given storage.
+        """
         self._storage = storage
         self._data = {}
         self._load()
@@ -43,12 +49,8 @@ class Database():
         return self._data[collection].get(id, None)
 
     def delete(self, collection: str, id: str):
-        """Delete a key from the database
-        Args:
-            collection (str): The collection to delete the data from
-            id (str): The id of the data
-        Returns:
-            None
+        """
+        Delete a key from the database
         """
         if not self._data.get(collection, None):
             return
@@ -68,12 +70,14 @@ class Database():
             return []
         return [(id, data) for id, data in self._data[collection].items()]
 
-    def refresh(self):
+    def refresh(self) -> None:
         """Refresh the database by loading the data from storage"""
         self._load()
 
-    def _persist(self):
-        """Persist the data to storage"""
+    def _persist(self) -> None:
+        """
+        Persist the data to storage
+        """
         for collection, data in self._data.items():
             if not data:
                 continue
@@ -89,7 +93,7 @@ class Database():
             if not self._data.get(collection, {}).get(id, None):
                 self._storage.delete(f"{collection}/{id}")
 
-    def _load(self):
+    def _load(self) -> None:
         """Load the data from storage"""
         self._data = {}
         for key in self._storage.list(""):

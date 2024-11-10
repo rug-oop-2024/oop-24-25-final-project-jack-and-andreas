@@ -9,7 +9,13 @@ class Dataset(Artifact):
     Args: from Artifact; asset_path, version, data, metadata, type, tags, name
     Return: a dataset object
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
+        """
+        Initialize the dataset with optional arguments.
+
+        If the "type" keyword argument is not provided,
+        it defaults to "dataset".
+        """
         # If type not in kwargs, set it to "dataset"
         if "type" not in kwargs:
             kwargs["type"] = "dataset"
@@ -18,8 +24,10 @@ class Dataset(Artifact):
 
     @staticmethod
     def from_dataframe(data: pd.DataFrame, name: str,
-                       asset_path: str, version: str = "1.0.0"):
-        """ Create a dataset from a pandas dataframe."""
+                       asset_path: str, version: str = "1.0.0") -> 'Dataset':
+        """
+        Create a dataset from a pandas dataframe.
+        """
         return Dataset(
             name=name,
             asset_path=asset_path,
