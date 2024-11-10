@@ -3,7 +3,7 @@ from autoop.core.ml.model import Model
 
 
 class DecisionTreeRegressor(Model):
-    """ 
+    """
     Decision Tree model for regression tasks.
     """
     def __init__(self):
