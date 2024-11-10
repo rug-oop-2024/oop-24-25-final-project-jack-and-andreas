@@ -103,11 +103,14 @@ class ArtifactRegistry():
         self._storage.delete(data["asset_path"])
         self._database.delete("artifacts", artifact_id)
 
+
 """
 Class AutoMLSystem
 Args: storage, database
 Returns: Registry of artifacts
 """
+
+
 class AutoMLSystem:
     _instance = None
 
