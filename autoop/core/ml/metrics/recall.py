@@ -3,6 +3,9 @@ import numpy as np
 
 
 class Recall(Metric):
+    """
+    A class used to calculate the recall metric for classification tasks.
+    """
     def evaluate(
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
