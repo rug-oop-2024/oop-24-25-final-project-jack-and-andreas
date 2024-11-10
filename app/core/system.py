@@ -1,12 +1,16 @@
 from autoop.core.storage import LocalStorage
 from autoop.core.database import Database
-# from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.artifact import Artifact
 from autoop.core.storage import Storage
 from typing import List
 
 
 class ArtifactRegistry():
+    """
+    Artifact registry
+    Args: Database, Storage
+    Returns: None
+    """
     def __init__(self,
                  database: Database,
                  storage: Storage):
@@ -27,6 +31,11 @@ class ArtifactRegistry():
         }
         self._database.set("artifacts", artifact.id, entry)
 
+    """
+    List artifacts
+    Args: type
+    Returns: List of artifacts
+    """
     def list(self, type: str = None) -> List[Artifact]:
         entries = self._database.list("artifacts")
         artifacts = []
@@ -45,6 +54,11 @@ class ArtifactRegistry():
             artifacts.append(artifact)
         return artifacts
 
+    """
+    List artifacts with class
+    Args: type, list_cls
+    Returns : List of artifacts
+    """
     def list_with_cls(self, type: str = None, list_cls=None) -> list:
         entries = self._database.list("artifacts")
         artifacts = []
@@ -63,6 +77,11 @@ class ArtifactRegistry():
             artifacts.append(artifact)
         return artifacts
 
+    """
+    Get artifact
+    Args: artifact_id
+    Returns: Artifact
+    """
     def get(self, artifact_id: str) -> Artifact:
         data = self._database.get("artifacts", artifact_id)
         return Artifact(
@@ -75,12 +94,20 @@ class ArtifactRegistry():
             type=data["type"],
         )
 
+    """
+    Delete artifact
+    Args : artifact_id
+    """
     def delete(self, artifact_id: str):
         data = self._database.get("artifacts", artifact_id)
         self._storage.delete(data["asset_path"])
         self._database.delete("artifacts", artifact_id)
 
-
+"""
+Class AutoMLSystem
+Args: storage, database
+Returns: Registry of artifacts
+"""
 class AutoMLSystem:
     _instance = None
 
