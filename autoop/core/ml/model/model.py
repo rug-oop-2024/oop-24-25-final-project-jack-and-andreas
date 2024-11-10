@@ -3,23 +3,25 @@ from abc import abstractmethod, ABC
 from autoop.core.ml.artifact import Artifact
 from typing import Any, Dict, Literal
 import pickle
+import pandas as pd
 
 
 class Model(ABC):
     """Base class for all models."""
 
     def __init__(self, type: Literal["classification", "regression"]):
+        """ Initalize the model"""
         self.parameters: Dict[str, Any] = {}
         self.hyperparameters: Dict[str, Any] = {}
         self.type = type
 
     @abstractmethod
-    def fit(self, X: Any, y: Any):
+    def fit(self, X: pd.DataFrame, y: pd.DataFrame) -> None:
         """Train the model."""
         pass
 
     @abstractmethod
-    def predict(self, X: Any) -> Any:
+    def predict(self, X: pd.DataFrame) -> Any:
         """Make predictions."""
         pass
 
