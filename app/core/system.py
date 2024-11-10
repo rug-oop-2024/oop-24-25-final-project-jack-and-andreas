@@ -14,6 +14,9 @@ class ArtifactRegistry():
     def __init__(self,
                  database: Database,
                  storage: Storage):
+        """
+        Initialize the artifact registry
+        """
         self._database = database
         self._storage = storage
 
@@ -54,7 +57,7 @@ class ArtifactRegistry():
             artifacts.append(artifact)
         return artifacts
 
-    def list_with_cls(self, type: str = None, list_cls=None) -> list:
+    def list_with_cls(self, type: str = None, list_cls: type = None) -> list:
         """
         List artifacts with class
         Args: type, list_cls
@@ -118,7 +121,7 @@ class AutoMLSystem:
         self._registry = ArtifactRegistry(database, storage)
 
     @staticmethod
-    def get_instance():
+    def get_instance() -> "AutoMLSystem":
         """ Get instance instantiates a new instance if there isn't one """
         if AutoMLSystem._instance is None:
             AutoMLSystem._instance = AutoMLSystem(
@@ -131,6 +134,6 @@ class AutoMLSystem:
         return AutoMLSystem._instance
 
     @property
-    def registry(self):
+    def registry(self) -> ArtifactRegistry:
         """ Returns the registry"""
         return self._registry
