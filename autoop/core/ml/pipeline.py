@@ -98,9 +98,11 @@ Pipeline(
         return artifacts
 
     def _register_artifact(self, name: str, artifact):
+        """ Register an artifact generated during the pipeline execution """
         self._artifacts[name] = artifact
 
     def _preprocess_features(self):
+        """ Preprocess the features """
         (target_feature_name, target_data, artifact) = preprocess_features(
             [self._target_feature], self._dataset
         )[0]
@@ -118,7 +120,7 @@ Pipeline(
         ]
 
     def _split_data(self):
-        # Split the data into training and testing sets
+        """ Split the data into training and testing sets """
         split = self._split
         self._train_X = [
             vector[:int(split * len(vector))]
@@ -135,14 +137,17 @@ Pipeline(
             int(split * len(self._output_vector)):]
 
     def _compact_vectors(self, vectors: List[np.array]) -> np.array:
+        """ Compact the input vectors into a single matrix """
         return np.concatenate(vectors, axis=1)
 
     def _train(self):
+        """ Train the model """
         X = self._compact_vectors(self._train_X)
         Y = self._train_y
         self._model.fit(X, Y)
 
     def _evaluate(self):
+        """ Evaluate the model """
         X = self._compact_vectors(self._test_X)
         Y = self._test_y
         self._metrics_results = []

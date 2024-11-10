@@ -6,7 +6,7 @@ class Precision(Metric):
     def evaluate(
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
-        """Calculate precision for classification tasks."""
+        """Calculates precision for classification tasks."""
         true_positives = np.sum((predictions == 1) & (ground_truth == 1))
         predicted_positives = np.sum(predictions == 1)
         return (

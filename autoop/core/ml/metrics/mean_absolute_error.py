@@ -6,5 +6,5 @@ class MeanAbsoluteError(Metric):
     def evaluate(
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
-        """Calculate mean absolute error for regression tasks."""
+        """Calculates mean absolute error for regression tasks."""
         return np.mean(np.abs(ground_truth - predictions))

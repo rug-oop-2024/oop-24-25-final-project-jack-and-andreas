@@ -3,7 +3,8 @@ import numpy as np
 
 
 class Metric(ABC):
-    """Base class for all metrics.
+    """
+    Base class for all metrics.
     """
     @abstractmethod
     def evaluate(self,

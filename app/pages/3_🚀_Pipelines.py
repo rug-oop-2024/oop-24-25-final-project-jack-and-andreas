@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from app.core.system import AutoMLSystem
 import io
+import pickle
 
 st.set_page_config(page_title="Pipelines", page_icon="🚀")
 
@@ -19,6 +20,7 @@ pipeline = st.selectbox("Select a pipeline", pipelines,
                         format_func=lambda x: f"{x.name} - {x.version}")
 
 if st.button("Load Datasets"):
+    """ Load datasets """
     if pipeline:
         st.write(f"### Dataset: {pipeline.name} (version {pipeline.version})")
         data_bytes = pipeline.read()

@@ -21,20 +21,20 @@ CLASSIFICATION_METRICS = ["accuracy", "precision", "recall"]
 
 
 def get_metric(name: str) -> Metric:
-    """Get a metric by name."""
+    """Gets a metric by name."""
     return METRICS[name]
 
 
 def get_metric_names() -> list[str]:
-    """Get the names of all available metrics."""
+    """Gets the names of all available metrics."""
     return list(METRICS.keys())
 
 
 def get_regression_metrics() -> list[str]:
-    """Get the names of all regression metrics."""
+    """Gets the names of all regression metrics."""
     return REGRESSION_METRICS
 
 
 def get_classification_metrics() -> list[str]:
-    """Get the names of all classification metrics."""
+    """Gets the names of all classification metrics."""
     return CLASSIFICATION_METRICS

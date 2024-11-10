@@ -6,5 +6,5 @@ class Accuracy(Metric):
     def evaluate(
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
-        """Calculate accuracy for classification tasks."""
+        """Calculates accuracy for classification tasks."""
         return np.mean(ground_truth == predictions)

@@ -6,5 +6,5 @@ class MeanSquaredError(Metric):
     def evaluate(
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
-        """Calculate mean squared error for regression tasks."""
+        """Calculates mean squared error for regression tasks."""
         return np.mean((ground_truth - predictions) ** 2)
