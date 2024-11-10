@@ -7,7 +7,7 @@ class SupportVectorRegressor(Model):
     """
     Support Vector Machine model for regression tasks.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         """ Initialize Support Vector Regressions """
         super().__init__("regression")
         self.hyperparameters["C"] = 1.0
