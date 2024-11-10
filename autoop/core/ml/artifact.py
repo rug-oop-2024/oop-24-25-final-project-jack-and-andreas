@@ -35,6 +35,9 @@ class Artifact(BaseModel):
         return f"{encoded_path}:{self.version}"
 
     def read(self) -> bytes:
+        """
+        Read the data from the artifact
+        """
         if self.data is None:
             self.data = open(self.asset_path, "rb").read()
         return self.data

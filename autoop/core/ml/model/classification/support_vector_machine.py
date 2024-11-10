@@ -3,6 +3,9 @@ from autoop.core.ml.model import Model
 
 
 class SupportVectorMachine(Model):
+    """
+    Support Vector Machine model for classification tasks.
+    """
     def __init__(self):
         super().__init__("classification")
         self.hyperparameters["C"] = 1.0
@@ -10,6 +13,9 @@ class SupportVectorMachine(Model):
         self.model = SVC()
 
     def fit(self, X, y):
+        """
+        Fit the model to the training data.
+        """
         self.model.fit(X, y)
         self.parameters["support_vectors"] = self.model.support_
 

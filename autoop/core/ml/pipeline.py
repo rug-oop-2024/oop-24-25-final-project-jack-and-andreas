@@ -11,6 +11,9 @@ import numpy as np
 
 
 class Pipeline():
+    """
+    Pipeline class to train and evaluate models.
+    """
     def __init__(self,
                  metrics: List[Metric],
                  dataset: Dataset,
