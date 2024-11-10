@@ -3,6 +3,9 @@ import numpy as np
 
 
 class R2Score(Metric):
+    """
+    A class used to calculate the R² score for regression tasks.
+    """
     def evaluate(
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:

@@ -9,6 +9,9 @@ class NotFoundError(Exception):
     Exception raised when a specified path is not found.
     """
     def __init__(self, path: str) -> None:
+        """
+        Initializes the exception with the given path.
+        """
         super().__init__(f"Path not found: {path}")
 
 
@@ -66,11 +69,17 @@ class LocalStorage(Storage):
     not exist.
     """
     def __init__(self, base_path: str = "./assets") -> None:
+        """
+        Initializes the storage with a base path for storing assets.
+        """
         self._base_path = base_path
         if not os.path.exists(self._base_path):
             os.makedirs(self._base_path)
 
     def save(self, data: bytes, key: str) -> None:
+        """
+        Saves the given data to a file specified by the key.
+        """
         path = self._join_path(key)
         if not os.path.exists(path):
             os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -103,7 +112,7 @@ class LocalStorage(Storage):
         keys = glob(path + "/**/*", recursive=True)
         return list(filter(os.path.isfile, keys))
 
-    def _assert_path_exists(self, path: str):
+    def _assert_path_exists(self, path: str) -> None:
         if not os.path.exists(path):
             raise NotFoundError(path)
 

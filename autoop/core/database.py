@@ -48,7 +48,7 @@ class Database():
             return None
         return self._data[collection].get(id, None)
 
-    def delete(self, collection: str, id: str):
+    def delete(self, collection: str, id: str) -> None:
         """
         Delete a key from the database
         """

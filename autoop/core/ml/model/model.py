@@ -1,4 +1,3 @@
-
 from abc import abstractmethod, ABC
 from autoop.core.ml.artifact import Artifact
 from typing import Any, Dict, Literal
@@ -22,7 +21,9 @@ class Model(ABC):
 
     @abstractmethod
     def predict(self, X: pd.DataFrame) -> pd.DataFrame:
-        """Make predictions."""
+        """
+        Make predictions on the test data.
+        """
         pass
 
     def to_artifact(self, name: str) -> Artifact:
