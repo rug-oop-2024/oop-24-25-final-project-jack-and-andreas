@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 from app.core.system import AutoMLSystem
 import io
-import pickle
 
 st.set_page_config(page_title="Pipelines", page_icon="🚀")
 
