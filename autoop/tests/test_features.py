@@ -13,7 +13,11 @@ from autoop.core.ml.dataset import Dataset  # noqa : E402
 from autoop.core.ml.feature import Feature  # noqa : E402
 from autoop.functional.feature import detect_feature_types  # noqa : E402
 
-
+"""
+Class to test feature detection
+This class contains tests for detecting feature types in a dataset
+It was pre-implemented
+"""
 class TestFeatures(unittest.TestCase):
     def setUp(self) -> None:
         pass
