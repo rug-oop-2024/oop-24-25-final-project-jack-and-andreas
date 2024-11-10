@@ -66,17 +66,26 @@ class LocalStorage(Storage):
             f.write(data)
 
     def load(self, key: str) -> bytes:
+        """
+        Load data from a given path
+        """
         path = self._join_path(key)
         self._assert_path_exists(path)
         with open(path, 'rb') as f:
             return f.read()
 
     def delete(self, key: str = "/"):
+        """
+        Delete data at a given path
+        """
         self._assert_path_exists(self._join_path(key))
         path = self._join_path(key)
         os.remove(path)
 
     def list(self, prefix: str) -> List[str]:
+        """
+        List all paths under a given path
+        """
         path = self._join_path(prefix)
         self._assert_path_exists(path)
         keys = glob(path + "/**/*", recursive=True)
