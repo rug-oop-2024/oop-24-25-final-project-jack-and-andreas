@@ -4,7 +4,11 @@ import io
 
 
 class Dataset(Artifact):
-    """A class to represent an ML dataset"""
+    """
+    A class to represent an ML dataset
+    Args: from Artifact; asset_path, version, data, metadata, type, tags, name
+    Return: a dataset object
+    """
     def __init__(self, *args, **kwargs):
         # If type not in kwargs, set it to "dataset"
         if "type" not in kwargs:

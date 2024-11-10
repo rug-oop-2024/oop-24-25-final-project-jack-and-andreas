@@ -1,6 +1,4 @@
 import streamlit as st
-# import pandas as pd
-
 from app.core.system import AutoMLSystem
 from autoop.core.ml.pipeline import Pipeline
 from autoop.core.ml.dataset import Dataset
@@ -19,13 +17,11 @@ from autoop.core.ml.metrics import (
 
 from autoop.functional.feature import detect_feature_types
 
-
+""" Page setup with text helper function """
 st.set_page_config(page_title="Modelling", page_icon="📈")
-
 
 def write_helper_text(text: str):
     st.write(f"<p style=\"color: #888;\">{text}</p>", unsafe_allow_html=True)
-
 
 st.write("# ⚙ Modelling")
 write_helper_text(
@@ -33,9 +29,14 @@ write_helper_text(
     "model on a dataset."
 )
 
+""" Data retrieval """
 automl = AutoMLSystem.get_instance()
 datasets = automl.registry.list_with_cls(type="dataset", list_cls=Dataset)
-
+"""
+If there are datasets, display in a selectbox
+If not, display a message
+If the dataset is empty, stop the script
+"""
 if not datasets:
     st.write("No datasets found.")
 else:
@@ -48,15 +49,15 @@ else:
     if dataset is None:
         st.stop()
 
-    features = detect_feature_types(dataset)
 
-    # Input features
+    """ Feature selection  """
+    
+    features = detect_feature_types(dataset)
     st.write("### Input Features")
     input_features = st.multiselect(
         "Select features", features, format_func=lambda feature: feature.name
     )
 
-    # Target feature
     st.write("### Target Feature")
     target_feature = st.selectbox(
         "Select target feature",
@@ -64,6 +65,12 @@ else:
         format_func=lambda feature: feature.name
     )
 
+    """ 
+    Model selection: 
+    If the feature is categorical, only show classification models
+    If the feature is numerical, only show regression models
+    """
+    
     st.write("## 🧠 Model Selection")
     write_helper_text(
         "Select a model to train on the dataset. You can also select the"
@@ -81,6 +88,9 @@ else:
 
     st.write(f"Model: {model}")
 
+    """ 
+    Hyperparameters
+    """
     st.write("### Hyperparameters")
     hyperparameters = model_instance.hyperparameters
 
@@ -94,12 +104,12 @@ else:
         else:
             hyperparameters[name] = st.text_input(name, value=str(value))
 
+    """ Metrics selection """
     st.write("## 🎯 Metrics")
     write_helper_text(
         "Select the evaluation metrics to use for training the model."
     )
 
-    # metrics = get_metric_names()
     metrics = []
     if target_feature.type == "categorical":
         metrics = get_classification_metrics()
@@ -111,12 +121,17 @@ else:
     names = ", ".join(selected_metrics)
     st.write(f"Metrics: {names}")
 
+    """ Start training section"""
+
     st.write("## 🚀 Training")
     write_helper_text(
         "Click the button below to start training the model on the dataset."
     )
 
-    # Data split
+    """
+    Data Splitting
+    Use a slider to select the train-test split ratio
+    """
     st.write("### Data Split")
     split = st.slider("Train-Test Split", 0.1, 0.9, 0.7, 0.1)
 
@@ -128,7 +143,12 @@ else:
         target_feature=target_feature,
         split=split
     )
-
+    
+    """ 
+    Training the model:
+    If the model is trained,
+    Execute the pipeline, display the results and predictions
+    """
     if "trained" not in st.session_state:
         st.session_state["trained"] = False
     if st.button("Train"):
@@ -144,7 +164,6 @@ else:
 
         st.dataframe(metrics_values, hide_index=True)
 
-        # Predictions
         st.write("## 📈 Predictions")
         st.write("Predictions on the test set.")
 

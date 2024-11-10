@@ -3,6 +3,11 @@ import base64
 
 
 class Artifact(BaseModel):
+    """
+    A class to represent an ML artifact
+    Args: asset_path, version, data, metadata, type, tags, name
+    Returns: an artifact object
+    """
     asset_path: str = Field(..., description="Path to the asset")
     version: str = Field(..., description="Version of the artifact")
     data: bytes = Field(..., description="Binary state data of the artifact")
