@@ -1,16 +1,14 @@
-
 from autoop.core.ml.model.model import Model
-
 from autoop.core.ml.model.classification import DecisionTree
 from autoop.core.ml.model.classification import KNearestNeighbours
 from autoop.core.ml.model.classification import SupportVectorMachine
-
 from autoop.core.ml.model.regression import DecisionTreeRegressor
 from autoop.core.ml.model.regression import MultipleLinearRegression
 from autoop.core.ml.model.regression import SupportVectorRegressor
-
 import pickle
 from autoop.core.ml.artifact import Artifact
+
+""" Initializaion for models"""
 
 REGRESSION_MODELS = {
     "DecisionTreeRegressor": DecisionTreeRegressor,
@@ -26,6 +24,7 @@ CLASSIFICATION_MODELS = {
 
 
 def get_model(model_name: str) -> Model:
+    """ Get model """
     if model_name in REGRESSION_MODELS:
         return REGRESSION_MODELS[model_name]()
     elif model_name in CLASSIFICATION_MODELS:
@@ -35,14 +34,17 @@ def get_model(model_name: str) -> Model:
 
 
 def get_models() -> list[str]:
+    """ Return list of models"""
     return list(REGRESSION_MODELS.keys()) + list(CLASSIFICATION_MODELS.keys())
 
 
 def get_regression_models() -> list[str]:
+    """ Return list of only regression models """
     return list(REGRESSION_MODELS.keys())
 
 
 def get_classification_models() -> list[str]:
+    """ Return list of only classification models """
     return list(CLASSIFICATION_MODELS.keys())
 
 

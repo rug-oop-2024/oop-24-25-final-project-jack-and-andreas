@@ -3,10 +3,13 @@ import numpy as np
 
 
 class Precision(Metric):
+    """
+    A precision metric for classification tasks
+    """
     def evaluate(
         self, ground_truth: np.ndarray, predictions: np.ndarray
     ) -> float:
-        """Calculates precision for classification tasks."""
+        """Calculates precision """
         true_positives = np.sum((predictions == 1) & (ground_truth == 1))
         predicted_positives = np.sum(predictions == 1)
         return (
