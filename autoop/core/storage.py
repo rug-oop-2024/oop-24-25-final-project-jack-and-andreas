@@ -5,7 +5,13 @@ from glob import glob
 
 
 class NotFoundError(Exception):
+    """
+    Error for when a path is not found
+    """
     def __init__(self, path):
+        """
+        Initialize the error
+        """
         super().__init__(f"Path not found: {path}")
 
 
