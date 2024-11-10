@@ -11,8 +11,13 @@ from autoop.core.ml.metrics import MeanSquaredError
 
 
 class TestPipeline(unittest.TestCase):
-
+    """
+    Test the Pipeline class.
+    """
     def setUp(self) -> None:
+        """
+        Set up the test case.
+        """
         data = fetch_openml(name="adult", version=1, parser="auto")
         df = pd.DataFrame(
             data.data,
@@ -37,13 +42,22 @@ class TestPipeline(unittest.TestCase):
         self.ds_size = data.data.shape[0]
 
     def test_init(self):
+        """
+        Test the initialization of the Pipeline class.
+        """
         self.assertIsInstance(self.pipeline, Pipeline)
 
     def test_preprocess_features(self):
+        """
+        Test the preprocess_features method.
+        """
         self.pipeline._preprocess_features()
         self.assertEqual(len(self.pipeline._artifacts), len(self.features))
 
     def test_split_data(self):
+        """
+        Test the split_data method.
+        """
         self.pipeline._preprocess_features()
         self.pipeline._split_data()
         train_size = int(0.8 * self.ds_size)
@@ -54,12 +68,18 @@ class TestPipeline(unittest.TestCase):
         )
 
     def test_train(self):
+        """
+        Test the train method.
+        """
         self.pipeline._preprocess_features()
         self.pipeline._split_data()
         self.pipeline._train()
         self.assertIsNotNone(self.pipeline._model.parameters)
 
     def test_evaluate(self):
+        """
+        Test the evaluate method.
+        """
         self.pipeline._preprocess_features()
         self.pipeline._split_data()
         self.pipeline._train()

@@ -8,7 +8,13 @@ from sklearn.svm import SVR
 
 
 class TestSupportVectorRegressor(unittest.TestCase):
+    """
+    Tests for the SupportVectorRegressor model.
+    """
     def setUp(self):
+        """
+        Create the training and testing data.
+        """
         self.X_train, self.y_train = make_regression(
             n_samples=100, n_features=10, random_state=42
         )
@@ -18,12 +24,18 @@ class TestSupportVectorRegressor(unittest.TestCase):
         self.regressor = SupportVectorRegressor()
 
     def test_initialization(self):
+        """
+        Test the initialization of the SupportVectorRegressor model.
+        """
         self.assertEqual(self.regressor.type, "regression")
         self.assertEqual(self.regressor.hyperparameters["C"], 1.0)
         self.assertEqual(self.regressor.hyperparameters["degree"], 3)
         self.assertIsInstance(self.regressor.model, SVR)
 
     def test_fit(self):
+        """
+        Test the fit method of the SupportVectorRegressor model.
+        """
         self.regressor.fit(self.X_train, self.y_train)
         self.assertIn("support_vectors", self.regressor.parameters)
         self.assertGreater(
@@ -31,6 +43,9 @@ class TestSupportVectorRegressor(unittest.TestCase):
         )
 
     def test_predict(self):
+        """
+        Test the predict method of the SupportVectorRegressor model.
+        """
         self.regressor.fit(self.X_train, self.y_train)
         predictions = self.regressor.predict(self.X_test)
         self.assertEqual(len(predictions), len(self.y_test))

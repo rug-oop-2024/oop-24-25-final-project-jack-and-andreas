@@ -4,6 +4,9 @@ from autoop.core.ml.metrics.precision import Precision
 
 
 class TestPrecision(unittest.TestCase):
+    """
+    Tests for the Precision metric.
+    """
     def test_precision(self):
         y_true = np.array([0, 1, 1, 0, 1, 1])
         y_pred = np.array([0, 1, 1, 0, 1, 1])

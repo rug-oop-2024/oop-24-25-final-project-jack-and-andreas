@@ -4,6 +4,9 @@ import numpy as np
 
 
 class TestR2Score(unittest.TestCase):
+    """
+    Tests for the R2Score metric.
+    """
     def test_r2_score(self):
         r2 = R2Score()
         y_true = np.array([1, 2, 3, 4, 5])

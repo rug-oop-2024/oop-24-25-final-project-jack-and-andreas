@@ -4,6 +4,9 @@ import numpy as np
 
 
 class TestRecall(unittest.TestCase):
+    """
+    Tests for the Recall metric.
+    """
     def test_recall(self):
         recall = Recall()
         y_true = np.array([0, 1, 1, 0, 1, 1])
