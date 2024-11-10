@@ -6,7 +6,10 @@ from autoop.core.ml.model.classification.k_nearest_neighbours import (
 )
 from sklearn.neighbors import KNeighborsClassifier
 
-
+"""
+Class to test the KNearestNeighbours class
+This class tests initalization, fit and predict methods of KNN
+"""
 class TestKNearestNeighbours(unittest.TestCase):
     def setUp(self):
         self.X_train, self.y_train = make_classification(
@@ -16,12 +19,12 @@ class TestKNearestNeighbours(unittest.TestCase):
             n_samples=20, n_features=10, random_state=43
         )
         self.knn_model = KNearestNeighbours()
-
+    """ Check for succesful initialization """
     def test_initialization(self):
         self.assertEqual(self.knn_model.type, "classification")
         self.assertEqual(self.knn_model.hyperparameters["n_neighbors"], 5)
         self.assertIsInstance(self.knn_model.model, KNeighborsClassifier)
-
+    """ Test fit """
     def test_fit(self):
         self.knn_model.fit(self.X_train, self.y_train)
         self.assertIn("knn", self.knn_model.parameters)
@@ -29,7 +32,7 @@ class TestKNearestNeighbours(unittest.TestCase):
             len(self.knn_model.parameters["knn"]),
             len(self.knn_model.model.get_params())
         )
-
+    """ Test predict """
     def test_predict(self):
         self.knn_model.fit(self.X_train, self.y_train)
         predictions = self.knn_model.predict(self.X_test)

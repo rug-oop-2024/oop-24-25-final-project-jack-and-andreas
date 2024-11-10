@@ -6,7 +6,10 @@ from autoop.core.ml.model.regression.linear_regression import (
 )
 from sklearn.linear_model import LinearRegression
 
-
+"""
+This class tests the Multiple Linear Regression model
+It tests intialization, fit and predict methods of the model
+"""
 class TestMultipleLinearRegression(unittest.TestCase):
     def setUp(self):
         # Generate synthetic regression data for testing
@@ -19,14 +22,14 @@ class TestMultipleLinearRegression(unittest.TestCase):
 
         # Initialize the MultipleLinearRegression model
         self.model = MultipleLinearRegression()
-
+    """ Check for succesful initialization """
     def test_initialization(self):
         # Test initialization
         self.assertEqual(self.model.type, "regression")
         self.assertEqual(self.model.hyperparameters["fit_intercept"], True)
         self.assertEqual(self.model.hyperparameters["normalize"], False)
         self.assertIsInstance(self.model.model, LinearRegression)
-
+    """ Test fit """
     def test_fit(self):
         # Test the fit method
         self.model.fit(self.X_train, self.y_train)
@@ -34,7 +37,7 @@ class TestMultipleLinearRegression(unittest.TestCase):
         self.assertEqual(
             len(self.model.parameters["coefficients"]), self.X_train.shape[1]
         )
-
+    """ Test predict """
     def test_predict(self):
         # Test the predict method
         self.model.fit(self.X_train, self.y_train)
