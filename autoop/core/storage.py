@@ -59,9 +59,6 @@ class LocalStorage(Storage):
             os.makedirs(self._base_path)
 
     def save(self, data: bytes, key: str):
-        """
-        Save data to a given path
-        """
         path = self._join_path(key)
         if not os.path.exists(path):
             os.makedirs(os.path.dirname(path), exist_ok=True)

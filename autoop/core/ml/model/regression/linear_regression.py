@@ -3,10 +3,10 @@ from sklearn.linear_model import LinearRegression as SKLinearRegression
 
 
 class MultipleLinearRegression(Model):
-    """
-    Multiple Linear Regression model for regression tasks.
-    """
     def __init__(self):
+        """
+        Multiple Linear Regression model for regression tasks.
+        """
         super().__init__("regression")
         self.hyperparameters["fit_intercept"] = True
         self.hyperparameters["normalize"] = False
