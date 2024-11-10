@@ -39,7 +39,3 @@ class Model(ABC):
             type="model",
             tags=[]
         )
-
-    @staticmethod
-    def from_artifact(artifact: Artifact) -> "Model":
-        pass

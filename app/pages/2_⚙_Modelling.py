@@ -17,7 +17,6 @@ from autoop.core.ml.metrics import (
 
 from autoop.functional.feature import detect_feature_types
 
-""" Page setup with text helper function """
 st.set_page_config(page_title="Modelling", page_icon="📈")
 
 
@@ -31,14 +30,12 @@ write_helper_text(
     "model on a dataset."
 )
 
-""" Registry retrieval """
 automl = AutoMLSystem.get_instance()
 datasets = automl.registry.list_with_cls(type="dataset", list_cls=Dataset)
-"""
-If there are datasets, display in a selectbox
-If not, display a message
-If the dataset is empty, stop the script
-"""
+
+# If there are datasets, display in a selectbox
+# If not, display a message
+# If the dataset is empty, stop the script
 if not datasets:
     st.write("No datasets found.")
 else:
@@ -50,8 +47,6 @@ else:
 
     if dataset is None:
         st.stop()
-
-    """ Feature selection  """
 
     features = detect_feature_types(dataset)
     st.write("### Input Features")
@@ -66,12 +61,9 @@ else:
         format_func=lambda feature: feature.name
     )
 
-    """
-    Model selection:
-    If the feature is categorical, only show classification models
-    If the feature is numerical, only show regression models
-    """
-
+    # Model selection:
+    # If the feature is categorical, only show classification models
+    # If the feature is numerical, only show regression models
     st.write("## 🧠 Model Selection")
     write_helper_text(
         "Select a model to train on the dataset. You can also select the"
@@ -88,7 +80,7 @@ else:
     model_instance = get_model(model)
     st.write(f"Model: {model}")
 
-    """ Hyperparameters selection"""
+    # Hyperparameters selection
 
     st.write("### Hyperparameters")
     hyperparameters = model_instance.hyperparameters
@@ -103,7 +95,7 @@ else:
         else:
             hyperparameters[name] = st.text_input(name, value=str(value))
 
-    """ Metrics selection """
+    # Metrics selection
     st.write("## 🎯 Metrics")
     write_helper_text(
         "Select the evaluation metrics to use for training the model."
@@ -120,17 +112,15 @@ else:
     names = ", ".join(selected_metrics)
     st.write(f"Metrics: {names}")
 
-    """ Start training section"""
+    # Start training section
 
     st.write("## 🚀 Training")
     write_helper_text(
         "Click the button below to start training the model on the dataset."
     )
 
-    """
-    Data Splitting
-    Use a slider to select the train-test split ratio
-    """
+    # Data Splitting
+    # Use a slider to select the train-test split ratio
     st.write("### Data Split")
     split = st.slider("Train-Test Split", 0.1, 0.9, 0.7, 0.1)
 
@@ -143,14 +133,13 @@ else:
         split=split
     )
 
-    """
-    Training the model:
-    If the model is trained,
-    Execute the pipeline, display the results and predictions
-    """
-    if "trained" not in st.session_state:
-        st.session_state["trained"] = False
-    if st.button("Train"):
+    pipe_name = st.text_input("Enter pipeline name")
+    pipe_version = st.text_input("Enter pipeline version")
+
+    # Training the model
+    # If the model is trained,
+    # Execute the pipeline, display the results and predictions
+    if st.button("Train and Save"):
         st.session_state["trained"] = True
         pipeline_results = pipeline.execute()
 
@@ -169,18 +158,8 @@ else:
         predictions = pipeline_results["predictions"]
         st.dataframe(predictions, hide_index=True)
 
-    if st.session_state["trained"]:
-        st.write("## 📦 Save Pipeline")
-        pipe_name = st.text_input("Enter pipeline name")
-        pipe_version = st.text_input("Enter pipeline version")
+        artifacts = pipeline.artifacts(pipe_name, pipe_version)
+        for artifact in artifacts:
+            automl.registry.register(artifact)
 
-        if st.button("Save"):
-            artifacts = pipeline.artifacts
-
-            for artifact in artifacts:
-                artifact.name = f"{pipe_name}-{pipe_version}-{artifact.name}"
-                artifact.asset_path = f"{pipe_name}/{artifact.asset_path}"
-                artifact.version = pipe_version
-                automl.registry.register(artifact)
-
-            st.write("Pipeline saved successfully.")
+        st.write("Pipeline saved successfully.")

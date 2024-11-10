@@ -52,8 +52,7 @@ Pipeline(
     def model(self):
         return self._model
 
-    @property
-    def artifacts(self) -> List[Artifact]:
+    def artifacts(self, pipe_name, pipe_version) -> List[Artifact]:
         """
         Used to get the artifacts generated during the pipeline
         execution to be saved
@@ -65,36 +64,46 @@ Pipeline(
                 data = artifact["encoder"]
                 data = pickle.dumps(data)
                 artifacts.append(Artifact(
-                    name=name,
+                    name=f"{name}_{pipe_name}_{pipe_version}",
                     data=data,
-                    asset_path=artifact.asset_path,
-                    version=artifact.version
+                    asset_path=(
+                        f"{pipe_name}/{name}_{pipe_name}_{pipe_version}"
+                    ),
+                    version=pipe_version,
+                    type="encoder"
                 ))
             if artifact_type in ["StandardScaler"]:
                 data = artifact["scaler"]
                 data = pickle.dumps(data)
                 artifacts.append(Artifact(
-                    name=name,
+                    name=f"{name}_{pipe_name}_{pipe_version}",
                     data=data,
-                    asset_path=artifact.asset_path,
-                    version=artifact.version
+                    asset_path=(
+                        f"{pipe_name}/{name}_{pipe_name}_{pipe_version}"
+                    ),
+                    version=pipe_version,
+                    type="scaler"
                 ))
-        pipeline_data = {
-            "input_features": self._input_features,
-            "target_feature": self._target_feature,
-            "split": self._split,
-        }
-        artifacts.append(Artifact(
-            name="pipeline_config",
-            data=pickle.dumps(pipeline_data),
-            type="pipeline_config",
-            asset_path="pipeline_config.pkl",
-            version="0.0.1"
-        ))
         model_artifact = self._model.to_artifact(
             name=f"pipeline_model_{self._model.type}"
         )
         artifacts.append(model_artifact)
+
+        pipeline_data = {
+            "input_features": self._input_features,
+            "target_feature": self._target_feature,
+            "split": self._split,
+            "metrics": self._metrics,
+            "model": model_artifact.id,
+        }
+
+        artifacts.append(Artifact(
+            name=f"pipeline_config_{pipe_name}_{pipe_version}",
+            data=pickle.dumps(pipeline_data),
+            type="pipeline_config",
+            asset_path=f"{pipe_name}/pipeline_config",
+            version=pipe_version
+        ))
         return artifacts
 
     def _register_artifact(self, name: str, artifact):
