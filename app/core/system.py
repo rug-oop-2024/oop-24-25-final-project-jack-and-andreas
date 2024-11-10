@@ -13,7 +13,7 @@ class ArtifactRegistry():
     """
     def __init__(self,
                  database: Database,
-                 storage: Storage):
+                 storage: Storage) -> None:
         """
         Initialize the artifact registry
         """
@@ -115,7 +115,10 @@ class AutoMLSystem:
     """
     _instance = None
 
-    def __init__(self, storage: LocalStorage, database: Database):
+    def __init__(self, storage: LocalStorage, database: Database) -> None:
+        """
+        Initializes the System with the given storage and database.
+        """
         self._storage = storage
         self._database = database
         self._registry = ArtifactRegistry(database, storage)

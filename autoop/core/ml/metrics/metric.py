@@ -18,4 +18,7 @@ class Metric(ABC):
     def __call__(self,
                  ground_truth: np.ndarray,
                  predictions: np.ndarray) -> float:
+        """
+        Evaluate the metric by comparing ground truth values with predictions.
+        """
         return self.evaluate(ground_truth, predictions)
