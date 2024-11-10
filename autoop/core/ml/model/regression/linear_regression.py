@@ -1,9 +1,10 @@
 from autoop.core.ml.model import Model
 from sklearn.linear_model import LinearRegression as SKLinearRegression
+import pandas as pd
 
 
 class MultipleLinearRegression(Model):
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Multiple Linear Regression model for regression tasks.
         """
@@ -12,14 +13,14 @@ class MultipleLinearRegression(Model):
         self.hyperparameters["normalize"] = False
         self.model = SKLinearRegression()
 
-    def fit(self, X, y):
+    def fit(self, X: pd.DataFrame, y: pd.DataFrame) -> None:
         """
         Fit the model to the training data.
         """
         self.model.fit(X, y)
         self.parameters["coefficients"] = self.model.coef_
 
-    def predict(self, X):
+    def predict(self, X: pd.DataFrame) -> pd.DataFrame:
         """
         Make predictions on the test data.
         """

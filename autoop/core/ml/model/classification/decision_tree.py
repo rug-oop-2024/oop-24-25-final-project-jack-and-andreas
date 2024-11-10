@@ -7,7 +7,7 @@ class DecisionTree(Model):
     """
     Decision Tree model for classification tasks.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         """ Initalize the decision tree """
         super().__init__("classification")
         self.hyperparameters["criterion"] = "gini"

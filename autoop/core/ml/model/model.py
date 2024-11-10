@@ -9,7 +9,7 @@ import pandas as pd
 class Model(ABC):
     """Base class for all models."""
 
-    def __init__(self, type: Literal["classification", "regression"]):
+    def __init__(self, type: Literal["classification", "regression"]) -> None:
         """ Initalize the model"""
         self.parameters: Dict[str, Any] = {}
         self.hyperparameters: Dict[str, Any] = {}
@@ -21,7 +21,7 @@ class Model(ABC):
         pass
 
     @abstractmethod
-    def predict(self, X: pd.DataFrame) -> Any:
+    def predict(self, X: pd.DataFrame) -> pd.DataFrame:
         """Make predictions."""
         pass
 

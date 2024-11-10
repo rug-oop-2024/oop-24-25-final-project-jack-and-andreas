@@ -7,7 +7,7 @@ class SupportVectorMachine(Model):
     """
     Support Vector Machine model for classification tasks.
     """
-    def __init__(self):
+    def __init__(self) -> None:
         """ Initalize the support vector machine """
         super().__init__("classification")
         self.hyperparameters["C"] = 1.0
