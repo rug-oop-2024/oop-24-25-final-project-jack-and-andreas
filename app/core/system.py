@@ -13,11 +13,11 @@ class ArtifactRegistry():
     """
     def __init__(self,
                  database: Database,
-                 storage: Storage):
+                 storage: Storage): 
         self._database = database
         self._storage = storage
 
-    def register(self, artifact: Artifact):
+    def register(self, artifact: Artifact) -> None:
         # save the artifact in the storage
         self._storage.save(artifact.data, artifact.asset_path)
         # save the metadata in the database
@@ -31,12 +31,13 @@ class ArtifactRegistry():
         }
         self._database.set("artifacts", artifact.id, entry)
 
-    """
-    List artifacts
-    Args: type
-    Returns: List of artifacts
-    """
+   
     def list(self, type: str = None) -> List[Artifact]:
+        """
+        List artifacts
+        Args: type
+        Returns: List of artifacts
+        """
         entries = self._database.list("artifacts")
         artifacts = []
         for id, data in entries:
@@ -54,12 +55,13 @@ class ArtifactRegistry():
             artifacts.append(artifact)
         return artifacts
 
-    """
-    List artifacts with class
-    Args: type, list_cls
-    Returns : List of artifacts
-    """
+   
     def list_with_cls(self, type: str = None, list_cls=None) -> list:
+        """
+        List artifacts with class
+        Args: type, list_cls
+        Returns : List of artifacts
+        """
         entries = self._database.list("artifacts")
         artifacts = []
         for id, data in entries:
@@ -77,12 +79,13 @@ class ArtifactRegistry():
             artifacts.append(artifact)
         return artifacts
 
-    """
-    Get artifact
-    Args: artifact_id
-    Returns: Artifact
-    """
+    
     def get(self, artifact_id: str) -> Artifact:
+        """
+        Get artifact
+        Args: artifact_id
+        Returns: Artifact
+        """
         data = self._database.get("artifacts", artifact_id)
         return Artifact(
             name=data["name"],
@@ -94,24 +97,22 @@ class ArtifactRegistry():
             type=data["type"],
         )
 
-    """
-    Delete artifact
-    Args : artifact_id
-    """
-    def delete(self, artifact_id: str):
+   
+    def delete(self, artifact_id: str) -> None:
+        """
+        Delete artifact
+        Args : artifact_id
+        """
         data = self._database.get("artifacts", artifact_id)
         self._storage.delete(data["asset_path"])
         self._database.delete("artifacts", artifact_id)
 
-
-"""
-Class AutoMLSystem
-Args: storage, database
-Returns: Registry of artifacts
-"""
-
-
 class AutoMLSystem:
+    """
+    Class AutoMLSystem
+    Args: storage, database
+    Returns: Registry of artifacts
+    """
     _instance = None
 
     def __init__(self, storage: LocalStorage, database: Database):
@@ -120,7 +121,7 @@ class AutoMLSystem:
         self._registry = ArtifactRegistry(database, storage)
 
     @staticmethod
-    def get_instance():
+    def get_instance() -> None:
         if AutoMLSystem._instance is None:
             AutoMLSystem._instance = AutoMLSystem(
                 LocalStorage("./assets/objects"),
