@@ -18,7 +18,7 @@ class ArtifactRegistry():
         self._storage = storage
 
     def register(self, artifact: Artifact) -> None:
-        # save the artifact in the storage
+        """ Register saves the artifact in the storage """
         self._storage.save(artifact.data, artifact.asset_path)
         # save the metadata in the database
         entry = {
@@ -118,7 +118,8 @@ class AutoMLSystem:
         self._registry = ArtifactRegistry(database, storage)
 
     @staticmethod
-    def get_instance() -> None:
+    def get_instance():
+        """ Get instance instantiates a new instance if there isn't one """
         if AutoMLSystem._instance is None:
             AutoMLSystem._instance = AutoMLSystem(
                 LocalStorage("./assets/objects"),
@@ -131,4 +132,5 @@ class AutoMLSystem:
 
     @property
     def registry(self):
+        """ Returns the registry"""
         return self._registry
