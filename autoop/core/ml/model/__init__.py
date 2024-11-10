@@ -1,3 +1,8 @@
+"""
+This module contains several classification and regression models
+As well as several helper functions to get models and load from artifacts
+"""
+
 from autoop.core.ml.model.model import Model
 from autoop.core.ml.model.classification import DecisionTree
 from autoop.core.ml.model.classification import KNearestNeighbours
@@ -7,8 +12,6 @@ from autoop.core.ml.model.regression import MultipleLinearRegression
 from autoop.core.ml.model.regression import SupportVectorRegressor
 import pickle
 from autoop.core.ml.artifact import Artifact
-
-""" Initializaion for models"""
 
 REGRESSION_MODELS = {
     "DecisionTreeRegressor": DecisionTreeRegressor,
