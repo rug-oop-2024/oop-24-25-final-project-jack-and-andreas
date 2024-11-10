@@ -34,8 +34,8 @@ class Pipeline():
         self._artifacts = {}
         self._split = split
         if (
-            target_feature.type == "categorical"  # noqa: W503
-            and model.type != "classification"
+            target_feature.type == "categorical"  
+            and model.type != "classification" # noqa: W503
         ):
             raise ValueError(
                 "Model type must be classification for "
