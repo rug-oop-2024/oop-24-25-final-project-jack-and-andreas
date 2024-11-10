@@ -5,16 +5,28 @@ from autoop.core.storage import LocalStorage, NotFoundError
 import random
 import tempfile
 
-class TestStorage(unittest.TestCase):
 
+class TestStorage(unittest.TestCase):
+    """
+    Tests for the LocalStorage class.
+    """
     def setUp(self):
+        """
+        Create a temporary directory and initialize the LocalStorage object.
+        """
         temp_dir = tempfile.mkdtemp()
         self.storage = LocalStorage(temp_dir)
 
     def test_init(self):
+        """
+        Test the initialization of the LocalStorage object.
+        """
         self.assertIsInstance(self.storage, LocalStorage)
 
     def test_store(self):
+        """
+        Test the save and load methods of the LocalStorage object.
+        """
         key = str(random.randint(0, 100))
         test_bytes = bytes([random.randint(0, 255) for _ in range(100)])
         key = "test/path"
@@ -28,6 +40,9 @@ class TestStorage(unittest.TestCase):
             self.assertIsInstance(e, NotFoundError)
 
     def test_delete(self):
+        """
+        Test the delete method of the LocalStorage object.
+        """
         key = str(random.randint(0, 100))
         test_bytes = bytes([random.randint(0, 255) for _ in range(100)])
         key = "test/path"
@@ -39,6 +54,9 @@ class TestStorage(unittest.TestCase):
             self.assertIsInstance(e, NotFoundError)
 
     def test_list(self):
+        """
+        Test the list method of the LocalStorage object.
+        """
         key = str(random.randint(0, 100))
         test_bytes = bytes([random.randint(0, 255) for _ in range(100)])
         random_keys = [f"test/{random.randint(0, 100)}" for _ in range(10)]
@@ -47,4 +65,3 @@ class TestStorage(unittest.TestCase):
         keys = self.storage.list("test")
         keys = ["/".join(key.split("/")[-2:]) for key in keys]
         self.assertEqual(set(keys), set(random_keys))
-            

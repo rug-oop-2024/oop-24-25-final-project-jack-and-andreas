@@ -1,21 +1,168 @@
 import streamlit as st
-import pandas as pd
-
 from app.core.system import AutoMLSystem
+from autoop.core.ml.pipeline import Pipeline
 from autoop.core.ml.dataset import Dataset
 
+from autoop.core.ml.model import (
+    get_classification_models,
+    get_regression_models,
+    get_model
+)
+
+from autoop.core.ml.metrics import (
+    get_regression_metrics,
+    get_classification_metrics,
+    get_metric
+)
+
+from autoop.functional.feature import detect_feature_types
 
 st.set_page_config(page_title="Modelling", page_icon="📈")
 
-def write_helper_text(text: str):
+
+def write_helper_text(text: str) -> None:
+    """
+    Writes the given text as HTML with a specific style to the Streamlit app.
+    """
     st.write(f"<p style=\"color: #888;\">{text}</p>", unsafe_allow_html=True)
 
+
 st.write("# ⚙ Modelling")
-write_helper_text("In this section, you can design a machine learning pipeline to train a model on a dataset.")
+write_helper_text(
+    "In this section, you can design a machine learning pipeline to train a"
+    "model on a dataset."
+)
 
 automl = AutoMLSystem.get_instance()
+datasets = automl.registry.list_with_cls(type="dataset", list_cls=Dataset)
 
-datasets = automl.registry.list(type="dataset")
+# If there are datasets, display in a selectbox
+# If not, display a message
+# If the dataset is empty, stop the script
+if not datasets:
+    st.write("No datasets found.")
+else:
+    dataset = st.selectbox(
+        "Select a dataset", datasets, format_func=lambda dataset: dataset.name
+    )
 
-# your code here
+    st.write(f"Dataset: {dataset.name}")
 
+    if dataset is None:
+        st.stop()
+
+    features = detect_feature_types(dataset)
+    st.write("### Input Features")
+    input_features = st.multiselect(
+        "Select features", features, format_func=lambda feature: feature.name
+    )
+
+    st.write("### Target Feature")
+    target_feature = st.selectbox(
+        "Select target feature",
+        features,
+        format_func=lambda feature: feature.name
+    )
+
+    # Model selection:
+    # If the feature is categorical, only show classification models
+    # If the feature is numerical, only show regression models
+    st.write("## 🧠 Model Selection")
+    write_helper_text(
+        "Select a model to train on the dataset. You can also select the"
+        "hyperparameters for the model."
+    )
+
+    models = []
+    if target_feature.type == "categorical":
+        models = get_classification_models()
+    elif target_feature.type == "numerical":
+        models = get_regression_models()
+
+    model = st.selectbox("Select a model", models)
+    model_instance = get_model(model)
+    st.write(f"Model: {model}")
+
+    # Hyperparameters selection
+
+    st.write("### Hyperparameters")
+    hyperparameters = model_instance.hyperparameters
+
+    for name, value in hyperparameters.items():
+        if isinstance(value, (int, float)):
+            hyperparameters[name] = st.number_input(name, value=value)
+        elif isinstance(value, str):
+            hyperparameters[name] = st.text_input(name, value=value)
+        elif isinstance(value, bool):
+            hyperparameters[name] = st.checkbox(name, value=value)
+        else:
+            hyperparameters[name] = st.text_input(name, value=str(value))
+
+    # Metrics selection
+    st.write("## 🎯 Metrics")
+    write_helper_text(
+        "Select the evaluation metrics to use for training the model."
+    )
+
+    metrics = []
+    if target_feature.type == "categorical":
+        metrics = get_classification_metrics()
+    elif target_feature.type == "numerical":
+        metrics = get_regression_metrics()
+
+    selected_metrics = st.multiselect("Select metrics", metrics)
+
+    names = ", ".join(selected_metrics)
+    st.write(f"Metrics: {names}")
+
+    # Start training section
+
+    st.write("## 🚀 Training")
+    write_helper_text(
+        "Click the button below to start training the model on the dataset."
+    )
+
+    # Data Splitting
+    # Use a slider to select the train-test split ratio
+    st.write("### Data Split")
+    split = st.slider("Train-Test Split", 0.1, 0.9, 0.7, 0.1)
+
+    pipeline = Pipeline(
+        metrics=[get_metric(name) for name in selected_metrics],
+        dataset=dataset,
+        model=model_instance,
+        input_features=input_features,
+        target_feature=target_feature,
+        split=split
+    )
+
+    pipe_name = st.text_input("Enter pipeline name")
+    pipe_version = st.text_input("Enter pipeline version")
+
+    # Training the model
+    # If the model is trained,
+    # Execute the pipeline, display the results and predictions
+    if st.button("Train and Save"):
+        st.session_state["trained"] = True
+        pipeline_results = pipeline.execute()
+
+        st.write("## 📊 Results")
+        metrics_values = pipeline_results["metrics"]
+        metrics_values = [
+            [type(x).__name__ for (x, _) in metrics_values],
+            [y for (_, y) in metrics_values]
+        ]
+
+        st.dataframe(metrics_values, hide_index=True)
+
+        st.write("## 📈 Predictions")
+        st.write("Predictions on the test set.")
+
+        predictions = pipeline_results["predictions"]
+        st.dataframe(predictions, hide_index=True)
+
+        artifacts = pipeline.artifacts(pipe_name, pipe_version)
+        for artifact in artifacts:
+            automl.registry.register(artifact)
+
+        st.write("Pipeline saved successfully.")

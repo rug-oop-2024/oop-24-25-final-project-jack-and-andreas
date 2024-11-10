@@ -1,18 +1,33 @@
 from autoop.core.ml.artifact import Artifact
-from abc import ABC, abstractmethod
 import pandas as pd
 import io
 
 
 class Dataset(Artifact):
-    """A class to represent an ML dataset"""
-    def __init__(self, *args, **kwargs):
-        super().__init__(type="dataset", *args, **kwargs)
+    """
+    A class to represent an ML dataset
+    Args: from Artifact; asset_path, version, data, metadata, type, tags, name
+    Return: a dataset object
+    """
+    def __init__(self, *args, **kwargs) -> None:
+        """
+        Initialize the dataset with optional arguments.
+
+        If the "type" keyword argument is not provided,
+        it defaults to "dataset".
+        """
+        # If type not in kwargs, set it to "dataset"
+        if "type" not in kwargs:
+            kwargs["type"] = "dataset"
+
+        super().__init__(*args, **kwargs)
 
     @staticmethod
     def from_dataframe(data: pd.DataFrame, name: str,
-                       asset_path: str, version: str = "1.0.0"):
-        """ Create a dataset from a pandas dataframe."""
+                       asset_path: str, version: str = "1.0.0") -> 'Dataset':
+        """
+        Create a dataset from a pandas dataframe.
+        """
         return Dataset(
             name=name,
             asset_path=asset_path,
